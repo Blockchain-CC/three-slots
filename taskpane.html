@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Availability settings</title>
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+  <script src="config.js"></script>
+  <style>
+    :root { --fg:#1f2328; --muted:#5b636d; --line:#d8dde3; --accent:#0f6cbd; --bg:#fff; --err:#b42318; }
+    * { box-sizing: border-box; }
+    body { margin:0; padding:16px; font:14px/1.45 "Segoe UI", system-ui, sans-serif; color:var(--fg); background:var(--bg); }
+    h1 { font-size:17px; margin:0 0 4px; }
+    p.lead { color:var(--muted); margin:0 0 16px; }
+    fieldset { border:1px solid var(--line); border-radius:8px; padding:12px; margin:0 0 12px; }
+    legend { font-weight:600; padding:0 4px; }
+    .row { display:flex; gap:10px; margin-bottom:10px; }
+    .row > label { flex:1; }
+    label { display:block; font-size:12px; color:var(--muted); }
+    input[type=number], input[type=time], input[type=text], select {
+      width:100%; margin-top:3px; padding:6px 8px; border:1px solid var(--line); border-radius:6px; font:inherit; color:var(--fg); }
+    .check { display:flex; align-items:center; gap:8px; font-size:13px; color:var(--fg); margin:6px 0; }
+    #workDays { display:flex; flex-wrap:wrap; gap:4px; margin-top:4px; }
+    .day { display:inline-flex; align-items:center; gap:3px; color:var(--fg); font-size:13px; padding:3px 6px; border:1px solid var(--line); border-radius:6px; }
+    .buttons { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; }
+    button { font:inherit; padding:7px 12px; border-radius:6px; border:1px solid var(--line); background:#f6f8fa; cursor:pointer; }
+    button.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+    button:disabled { opacity:.5; cursor:default; }
+    #preview { padding-left:18px; margin:8px 0; }
+    .status { min-height:1.4em; color:var(--muted); }
+    .status.error { color:var(--err); }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@azure/msal-browser@5.25.1/lib/msal-browser.min.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <h1>Availability settings</h1>
+  <p class="lead">Sets what the <b>Insert 3 times</b> button suggests. Sign in once, then the button works in one click.</p>
+
+  <div class="buttons"><button id="signin">Sign in</button></div>
+
+  <fieldset>
+    <legend>Meeting</legend>
+    <div class="row">
+      <label>Length (minutes)<input id="durationMin" type="number" min="15" step="15"></label>
+      <label>Options to offer<input id="count" type="number" min="1" max="10"></label>
+    </div>
+    <label>Gap around other meetings (minutes)<input id="bufferMin" type="number" min="0" step="5"></label>
+  </fieldset>
+
+  <fieldset>
+    <legend>When</legend>
+    <div class="row">
+      <label>Earliest start<input id="workStart" type="time"></label>
+      <label>Latest end<input id="workEnd" type="time"></label>
+    </div>
+    <label>Days</label>
+    <div id="workDays"></div>
+    <div class="row" style="margin-top:10px">
+      <label>Start from
+        <select id="startOffsetDays">
+          <option value="0">Today</option><option value="1">Tomorrow</option>
+          <option value="2">In 2 days</option><option value="7">Next week</option>
+        </select>
+      </label>
+      <label>Look ahead (days)<input id="searchDays" type="number" min="1" max="60"></label>
+    </div>
+    <label class="check"><input id="onePerDay" type="checkbox"> Spread options over different days</label>
+    <label class="check"><input id="tentativeIsBusy" type="checkbox"> Treat tentative meetings as busy</label>
+  </fieldset>
+
+  <fieldset>
+    <legend>Text</legend>
+    <label>Line above the options (optional)<input id="intro" type="text" placeholder="e.g. Would any of these suit you?"></label>
+  </fieldset>
+
+  <div class="buttons">
+    <button id="save">Save settings</button>
+    <button id="previewBtn">Preview</button>
+    <button id="insert" class="primary" disabled>Insert into email</button>
+  </div>
+  <ul id="preview"></ul>
+  <div id="status" class="status"></div>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+           xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0"
+           xsi:type="MailApp">
+  <Id>76d18d4d-6c4a-4049-bf30-b0375c4ebbac</Id>
+  <Version>1.0.0.0</Version>
+  <ProviderName>Christiaan Coetzee</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+  <DisplayName DefaultValue="Insert 3 Times"/>
+  <Description DefaultValue="Inserts your next three free calendar slots into the email you are writing."/>
+  <IconUrl DefaultValue="https://blockchain-cc.github.io/three-slots/icon-64.png"/>
+  <HighResolutionIconUrl DefaultValue="https://blockchain-cc.github.io/three-slots/icon-128.png"/>
+  <SupportUrl DefaultValue="https://blockchain-cc.github.io/three-slots/taskpane.html"/>
+  <AppDomains>
+    <AppDomain>https://login.microsoftonline.com</AppDomain>
+  </AppDomains>
+  <Hosts>
+    <Host Name="Mailbox"/>
+  </Hosts>
+  <Requirements>
+    <Sets>
+      <Set Name="Mailbox" MinVersion="1.5"/>
+    </Sets>
+  </Requirements>
+  <FormSettings>
+    <Form xsi:type="ItemEdit">
+      <DesktopSettings>
+        <SourceLocation DefaultValue="https://blockchain-cc.github.io/three-slots/taskpane.html"/>
+      </DesktopSettings>
+    </Form>
+  </FormSettings>
+  <Permissions>ReadWriteItem</Permissions>
+  <Rule xsi:type="RuleCollection" Mode="Or">
+    <Rule xsi:type="ItemIs" ItemType="Message" FormType="Edit"/>
+  </Rule>
+  <DisableEntityHighlighting>false</DisableEntityHighlighting>
+
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="VersionOverridesV1_0">
+      <Requirements>
+        <bt:Sets DefaultMinVersion="1.3">
+          <bt:Set Name="Mailbox"/>
+        </bt:Sets>
+      </Requirements>
+      <Hosts>
+        <Host xsi:type="MailHost">
+          <DesktopFormFactor>
+            <FunctionFile resid="Commands.Url"/>
+            <ExtensionPoint xsi:type="MessageComposeCommandSurface">
+              <OfficeTab id="TabDefault">
+                <Group id="threeSlotsGroup">
+                  <Label resid="Group.Label"/>
+                  <Control xsi:type="Button" id="insertThreeSlotsButton">
+                    <Label resid="Insert.Label"/>
+                    <Supertip>
+                      <Title resid="Insert.Label"/>
+                      <Description resid="Insert.Tip"/>
+                    </Supertip>
+                    <Icon>
+                      <bt:Image size="16" resid="Icon.16x16"/>
+                      <bt:Image size="32" resid="Icon.32x32"/>
+                      <bt:Image size="80" resid="Icon.80x80"/>
+                    </Icon>
+                    <Action xsi:type="ExecuteFunction">
+                      <FunctionName>insertThreeSlots</FunctionName>
+                    </Action>
+                  </Control>
+                  <Control xsi:type="Button" id="threeSlotsSettingsButton">
+                    <Label resid="Settings.Label"/>
+                    <Supertip>
+                      <Title resid="Settings.Label"/>
+                      <Description resid="Settings.Tip"/>
+                    </Supertip>
+                    <Icon>
+                      <bt:Image size="16" resid="Gear.16x16"/>
+                      <bt:Image size="32" resid="Gear.32x32"/>
+                      <bt:Image size="80" resid="Gear.80x80"/>
+                    </Icon>
+                    <Action xsi:type="ShowTaskpane">
+                      <SourceLocation resid="Taskpane.Url"/>
+                    </Action>
+                  </Control>
+                </Group>
+              </OfficeTab>
+            </ExtensionPoint>
+          </DesktopFormFactor>
+        </Host>
+      </Hosts>
+      <Resources>
+        <bt:Images>
+          <bt:Image id="Icon.16x16" DefaultValue="https://blockchain-cc.github.io/three-slots/icon-16.png"/>
+          <bt:Image id="Icon.32x32" DefaultValue="https://blockchain-cc.github.io/three-slots/icon-32.png"/>
+          <bt:Image id="Icon.80x80" DefaultValue="https://blockchain-cc.github.io/three-slots/icon-80.png"/>
+          <bt:Image id="Gear.16x16" DefaultValue="https://blockchain-cc.github.io/three-slots/gear-16.png"/>
+          <bt:Image id="Gear.32x32" DefaultValue="https://blockchain-cc.github.io/three-slots/gear-32.png"/>
+          <bt:Image id="Gear.80x80" DefaultValue="https://blockchain-cc.github.io/three-slots/gear-80.png"/>
+        </bt:Images>
+        <bt:Urls>
+          <bt:Url id="Commands.Url" DefaultValue="https://blockchain-cc.github.io/three-slots/commands.html"/>
+          <bt:Url id="Taskpane.Url" DefaultValue="https://blockchain-cc.github.io/three-slots/taskpane.html"/>
+        </bt:Urls>
+        <bt:ShortStrings>
+          <bt:String id="Group.Label" DefaultValue="Availability"/>
+          <bt:String id="Insert.Label" DefaultValue="Insert 3 times"/>
+          <bt:String id="Settings.Label" DefaultValue="Availability settings"/>
+        </bt:ShortStrings>
+        <bt:LongStrings>
+          <bt:String id="Insert.Tip" DefaultValue="Checks your calendar and inserts your next three free slots at the cursor."/>
+          <bt:String id="Settings.Tip" DefaultValue="Sign in once, and choose meeting length, working hours and days."/>
+        </bt:LongStrings>
+      </Resources>
+  </VersionOverrides>
+</OfficeApp>
